@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { loginUser } from "../apiCall/auth";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const LogIn = () => {
 
@@ -7,10 +10,21 @@ const LogIn = () => {
           password:""
         });
 
-    const submitHandler = (e) =>{
+      const navigate = useNavigate();
+
+    const submitHandler = async (e) => {
       e.preventDefault();
-      console.log(user);
-    }
+
+    const response = await loginUser(user);
+
+      if(response.success) {
+        localStorage.setItem('token', response.token);
+        toast.success(response.message);
+        navigate("/");
+      }   else {
+        toast.error(response.message);
+      }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { signupUser } from "../apiCall/auth";
-
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 const Signup = () => {
 
   const [user, setUser] = useState({
@@ -10,23 +11,19 @@ const Signup = () => {
       password:""
     });
     
+  const navigate = useNavigate();
 
-    const submitHandler = async (e) =>{
-      e.preventDefault();
-      console.log(user);
-      let response = null;
-      try {
-        response = await signupUser(user);
+  const submitHandler = async (e) => {
+    e.preventDefault();
 
-        if(response.success){
-           alert(response.message);
-        } else {
-           alert(response.message);
-        }
-      } catch (e) {
-        alert(response.message);
+    const response = await signupUser(user);
+    if (response.success) {
+        toast.success(response.message);
+        navigate("/login");
+      } else{
+        toast.error(response.message);
       }
-    }
+  };
 
   return (
 

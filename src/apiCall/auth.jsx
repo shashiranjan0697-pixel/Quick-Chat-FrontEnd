@@ -11,3 +11,15 @@ export const signupUser = async (user) =>{
         return e;
     }
 }
+
+
+export const loginUser = async (user) => {
+    try{
+
+        const response = await axiosInstance.post('/auth/signin', user);
+
+        return response.data;
+    }   catch(e) {
+        return e;
+    }
+}
